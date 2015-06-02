@@ -34,6 +34,7 @@
     "browserify": "^9.0.3",
     "eslint": "^0.21.2",
     "smokestack": "^3.2.2",
+    "tap": "^1.2.0",
     "tap-closer": "^1.0.0",
     "tape": "^4.0.0",
     "uglify-js": "^2.4.17"
