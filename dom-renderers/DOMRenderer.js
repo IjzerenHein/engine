@@ -28,6 +28,7 @@ var ElementCache = require('./ElementCache');
 var math = require('./Math');
 var vendorPrefix = require('../utilities/vendorPrefix');
 var eventMap = require('./events/EventMap');
+var Path = require('../core/Path');
 
 var TRANSFORM = null;
 
@@ -380,7 +381,7 @@ DOMRenderer.prototype.resolveChildren = function resolveChildren (element, paren
             i++;
             continue;
         }
-        if (PathUtils.isDescendentOf(childPath, parent)) element.appendChild(childNode);
+        if (Path.isDescendentOf(childPath, parent)) element.appendChild(childNode);
         else i++;
     }
 };
@@ -438,7 +439,7 @@ DOMRenderer.prototype.setProperty = function setProperty (name, value) {
  * Sets the size of the currently loaded target.
  * Removes any explicit sizing constraints when passed in `false`
  * ("true-sizing").
- * 
+ *
  * Invoking setSize is equivalent to a manual invocation of `setWidth` followed
  * by `setHeight`.
  *
@@ -458,15 +459,15 @@ DOMRenderer.prototype.setSize = function setSize (width, height) {
 
 /**
  * Sets the width of the currently loaded ElementCache.
- * 
+ *
  * @method  setWidth
- *  
+ *
  * @param  {Number|false} width     The explicit width to be set on the
  *                                  ElementCache's target (and content) element.
  *                                  `false` removes any explicit sizing
  *                                  constraints from the underlying DOM
  *                                  Elements.
- */ 
+ */
 DOMRenderer.prototype.setWidth = function setWidth(width) {
     this._assertTargetLoaded();
 
@@ -489,15 +490,15 @@ DOMRenderer.prototype.setWidth = function setWidth(width) {
 
 /**
  * Sets the height of the currently loaded ElementCache.
- * 
+ *
  * @method  setHeight
- *  
+ *
  * @param  {Number|false} height    The explicit height to be set on the
  *                                  ElementCache's target (and content) element.
  *                                  `false` removes any explicit sizing
  *                                  constraints from the underlying DOM
  *                                  Elements.
- */ 
+ */
 DOMRenderer.prototype.setHeight = function setHeight(height) {
     this._assertTargetLoaded();
 
@@ -620,7 +621,7 @@ DOMRenderer.prototype.removeClass = function removeClass(domClass) {
  */
 DOMRenderer.prototype._stringifyMatrix = function _stringifyMatrix(m) {
     var r = 'matrix3d(';
-    
+
     r += (m[0] < 0.000001 && m[0] > -0.000001) ? '0,' : m[0] + ',';
     r += (m[1] < 0.000001 && m[1] > -0.000001) ? '0,' : m[1] + ',';
     r += (m[2] < 0.000001 && m[2] > -0.000001) ? '0,' : m[2] + ',';
@@ -636,7 +637,7 @@ DOMRenderer.prototype._stringifyMatrix = function _stringifyMatrix(m) {
     r += (m[12] < 0.000001 && m[12] > -0.000001) ? '0,' : m[12] + ',';
     r += (m[13] < 0.000001 && m[13] > -0.000001) ? '0,' : m[13] + ',';
     r += (m[14] < 0.000001 && m[14] > -0.000001) ? '0,' : m[14] + ',';
-    
+
     r += m[15] + ')';
     return r;
 };
