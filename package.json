@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test-new": "node ./scripts/test.js ./core/**/*.spec.js",
     "test-components": "browserify components/test/*.js | tap-closer | smokestack -b firefox",
     "test-core": "browserify core/test/*.js | tap-closer | smokestack -b firefox",
     "test-dom-renderables": "browserify dom-renderables/test/*.js | tap-closer | smokestack -b firefox",
