@@ -572,7 +572,7 @@ Transform.prototype.fromNodeWithParent = function fromNodeWithParent (node) {
     var vectors = this.vectors;
     var offsets = this.offsets;
     var parentSize = node.getParent().getSize();
-    var changed = false;
+    var changed = 0;
 
     // local cache of everything
     var t00         = target[0];
@@ -696,7 +696,7 @@ function multiply (out, a, b) {
         a20 = a[8], a21 = a[9], a22 = a[10],
         a30 = a[12], a31 = a[13], a32 = a[14];
 
-    var changed = false;
+    var changed = 0;
     var res;
 
     // Cache only the current line of the second matrix
