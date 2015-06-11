@@ -51,8 +51,7 @@
   },
   "browserify": {
     "transform": [
-      "glslify",
-      "cssify"
+      "glslify"
     ]
   }
 }
