@@ -557,6 +557,7 @@ Mesh.prototype.onTransformChange = function onTransformChange (transform) {
  * @return {undefined} undefined
  */
 Mesh.prototype.onSizeChange = function onSizeChange (x, y, z) {
+    if (y == null || z == null) debugger;
     if (this._initialized) {
         this._changeQueue.push(Commands.GL_UNIFORMS);
         this._changeQueue.push('u_size');
@@ -623,7 +624,8 @@ Mesh.prototype._requestUpdate = function _requestUpdate () {
 Mesh.prototype.init = function init () {
     this._initialized = true;
     this.onTransformChange(TransformSystem.get(this._node.getLocation()));
-    this.onSizeChange(this._node.getSize());
+    var size = this._node.getSize();
+    this.onSizeChange(size[0], size[1], size[2]);
     this.onOpacityChange(this._node.getOpacity());
     this._requestUpdate();
 };
