@@ -28,7 +28,6 @@ var WebGLRenderer = require('../webgl-renderers/WebGLRenderer');
 var Camera = require('../components/Camera');
 var DOMRenderer = require('../dom-renderers/DOMRenderer');
 var Commands = require('../core/Commands');
-require('./styles.css');
 
 /**
  * Context is a render layer with its own WebGLRenderer and DOMRenderer.
@@ -68,7 +67,7 @@ function Context(selector, compositor) {
     this.DOMRenderer = new DOMRenderer(DOMLayerEl, selector, compositor);
     this.WebGLRenderer = null;
     this._canvasEl = null;
-    
+
     // State holders
 
     this._renderState = {
@@ -201,7 +200,7 @@ Context.prototype.receive = function receive(path, commands, iterator) {
     this.DOMRenderer.findTarget();
     while (command != null) {
         if (command === Commands.WITH || command === Commands.TIME) return localIterator - 1;
-        else localIterator = this._commandCallbacks[command](this, path, commands, localIterator) + 1; 
+        else localIterator = this._commandCallbacks[command](this, path, commands, localIterator) + 1;
         command = commands[localIterator];
     }
 
@@ -241,7 +240,7 @@ function changeTransform (context, path, commands, iterator) {
     temp[15] = commands[++iterator];
 
     context.DOMRenderer.setMatrix(temp);
-    
+
     if (context.WebGLRenderer)
         context.WebGLRenderer.setCutoutUniform(path, 'u_transform', temp);
 
@@ -258,7 +257,7 @@ function changeSize (context, path, commands, iterator) {
         context._meshSize[1] = height;
         context.WebGLRenderer.setCutoutUniform(path, 'u_size', context._meshSize);
     }
-    
+
     return iterator;
 }
 
@@ -273,7 +272,7 @@ function changeContent (context, path, commands, iterator) {
     context.DOMRenderer.setContent(commands[++iterator]);
     return iterator;
 }
-  
+
 function changeAttribute (context, path, commands, iterator) {
     if (context.WebGLRenderer) context.WebGLRenderer.getOrSetCutout(path);
     context.DOMRenderer.setAttribute(commands[++iterator], commands[++iterator]);
@@ -439,4 +438,3 @@ function changeViewTransform (context, path, commands, iterator) {
 }
 
 module.exports = Context;
-
