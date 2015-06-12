@@ -117,7 +117,7 @@ Size.prototype.setAbsolute = function setAbsolute (x, y, z) {
     return this;
 };
 
-Size.prototype.getAbsoluteSize = function getAbsoluteSize () {
+Size.prototype.getAbsolute = function getAbsolute () {
     return this.absoluteSize;
 };
 
@@ -126,7 +126,7 @@ Size.prototype.setProportional = function setProportional (x, y, z) {
     return this;
 };
 
-Size.prototype.getProportionalSize = function getProportionalSize () {
+Size.prototype.getProportional = function getProportional () {
     return this.proportionalSize;
 };
 
@@ -191,4 +191,3 @@ Size.prototype.fromComponents = function fromComponents (components) {
 };
 
 module.exports = Size;
-
