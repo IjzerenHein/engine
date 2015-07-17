@@ -59,15 +59,16 @@ function BufferRegistry(context) {
  *
  * @method
  *
- * @param {Number} geometryId Id of the geometry instance that holds the buffers.
+ * @param {Number} [geometryId] Id of the geometry instance that holds the buffers.
  * @param {String} name Key of the input buffer in the geometry.
  * @param {Array} value Flat array containing input data for buffer.
  * @param {Number} spacing The spacing, or itemSize, of the input buffer.
  * @param {Boolean} dynamic Boolean denoting whether a geometry is dynamic or static.
  *
- * @return {undefined} undefined
+ * @return {Number} The id used for registering the buffer
  */
 BufferRegistry.prototype.allocate = function allocate(geometryId, name, value, spacing, dynamic) {
+    geometryId = geometryId == null ? BufferRegistry._nextId++ : geometryId;
     var vertexBuffers = this.registry[geometryId] || (this.registry[geometryId] = { keys: [], values: [], spacing: [], offset: [], length: [] });
 
     var j = vertexBuffers.keys.indexOf(name);
@@ -140,6 +141,10 @@ BufferRegistry.prototype.allocate = function allocate(geometryId, name, value, s
         vertexBuffers.values[j].data[offset + k] = value[k];
     }
     vertexBuffers.values[j].subData();
+
+    return geometryId;
 };
+
+BufferRegistry._nextId = 0;
 
 module.exports = BufferRegistry;

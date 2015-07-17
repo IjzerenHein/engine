@@ -78,6 +78,7 @@ function WebGLRenderer(canvas, compositor) {
 
     this.meshRegistry = new Registry();
     this.cutoutRegistry = new Registry();
+    this.cutoutBufferRegistry = new BufferRegistry(gl);
     this.lightRegistry = new Registry();
 
     this.numLights = 0;
@@ -116,24 +117,6 @@ function WebGLRenderer(canvas, compositor) {
     e.g. the WC3 specified model, keep the XY plane as the projection hyperplane.
     */
     this.projectionTransform = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, -0.000001, 0, -1, 1, 0, 1];
-
-    // TODO: remove this hack
-
-    var cutout = this.cutoutGeometry = {
-        spec: {
-            id: -1,
-            bufferValues: [[-1, -1, 0, 1, -1, 0, -1, 1, 0, 1, 1, 0]],
-            bufferNames: ['a_pos'],
-            type: 'TRIANGLE_STRIP'
-        }
-    };
-
-    this.bufferRegistry.allocate(
-        this.cutoutGeometry.spec.id,
-        cutout.spec.bufferNames[0],
-        cutout.spec.bufferValues[0],
-        3
-    );
 }
 
 /**
@@ -251,6 +234,13 @@ WebGLRenderer.prototype.getOrSetCutout = function getOrSetCutout(path) {
     var cutout = this.cutoutRegistry.get(path);
 
     if (!cutout) {
+        var geometryId = this.bufferRegistry.allocate(
+            0,
+            [-1, -1, 0, 1, -1, 0, -1, 1, 0, 1, 1, 0],
+            'a_pos',
+            3
+        );
+
         var uniforms = keyValueToArrays({
             u_opacity: 0,
             u_transform: identity.slice(),
@@ -262,8 +252,8 @@ WebGLRenderer.prototype.getOrSetCutout = function getOrSetCutout(path) {
         cutout = {
             uniformKeys: uniforms.keys,
             uniformValues: uniforms.values,
-            geometry: this.cutoutGeometry.spec.id,
-            drawType: this.cutoutGeometry.spec.type,
+            geometry: geometryId,
+            drawType: 'TRIANGLE_STRIP',
             visible: true
         };
 
